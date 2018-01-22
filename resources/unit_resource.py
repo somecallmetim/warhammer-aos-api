@@ -2,25 +2,22 @@ from flask_restful import Resource, reqparse
 from models.unit_model import UnitModel
 
 
-class UnitResource(Resource):
-    # grabs data fields from the model. data_fields is a nested dictionary that contains all the data the parser will
-    # need to set up and parse json into something we can use to manipulate the database
-    data_fields = UnitModel.data_fields
+class UnitList(Resource):
+    def get(self):
+        return {"units": [unit.json() for unit in UnitModel.query.all()]}
 
+
+class UnitResource(Resource):
     # parser will collect and parse any json sent by the client
     parser = reqparse.RequestParser()
     # sets up parser to accept only data we want from the json sent by the client
-    # for data_field in data_fields:
-    #     parser.add_argument(data_field, data_fields[data_field]["type"], data_fields[data_field]["required"],
-    #                         data_fields[data_field]["help"])
-
-    parser.add_argument("minimum_models", type="int", required=True, help="This field is required")
-    parser.add_argument("maximum_models", type="int", required=True, help="This field is required")
-    parser.add_argument("points_per_model", type="int", required=True, help="This field is required")
-    parser.add_argument("save", type="int", required=True, help="This field is required")
-    parser.add_argument("bravery", type="int", required=True, help="This field is required")
-    parser.add_argument("wounds", type="int", required=True, help="This field is required")
-    parser.add_argument("spells_per_round", type="int", required=True, help="This field is required")
+    parser.add_argument("minimum_models", type=int, required=True, help="This field is required")
+    parser.add_argument("maximum_models", type=int, required=True, help="This field is required")
+    parser.add_argument("points_per_model", type=int, required=True, help="This field is required")
+    parser.add_argument("save", type=int, required=True, help="This field is required")
+    parser.add_argument("bravery", type=int, required=True, help="This field is required")
+    parser.add_argument("wounds", type=int, required=True, help="This field is required")
+    parser.add_argument("spells_per_round", type=int, required=True, help="This field is required")
 
     def get(self, name):
         # check to see if unit is in the db

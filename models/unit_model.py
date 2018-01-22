@@ -2,8 +2,10 @@ from db import db
 
 
 class UnitModel(db.Model):
+    # tells sqlalchemy the name of the table
     __tablename__ = "units"
 
+    # sets up data fields for sqlalchemy
     id = db.Column(db.Integer, primary_key=True)
     unit_name = db.Column(db.String(255), unique=True)
     minimum_models = db.Column(db.SmallInteger)
@@ -26,11 +28,7 @@ class UnitModel(db.Model):
         self.wounds = wounds
         self.spells_per_round = spells_per_round
 
-
-    @classmethod
-    def get_data_fields(cls):
-        return cls.data_fields
-
+    # returns a string representation of the unit in json format
     def json(self):
         return {
             "unit_name": self.unit_name, "minimum_models": self.minimum_models, "maximum_models": self.maximum_models,

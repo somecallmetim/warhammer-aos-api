@@ -2,7 +2,7 @@ from app_config import AppConfig
 
 from flask import Flask
 from flask_restful import Api
-from resources.unit_resource import UnitResource
+from resources.unit_resource import UnitResource, UnitList
 
 app = Flask(__name__)
 
@@ -18,6 +18,7 @@ def hello_world():
 
 
 api.add_resource(UnitResource, "/unit/<string:name>")
+api.add_resource(UnitList, "/units")
 
 
 if __name__ == '__main__':
@@ -29,4 +30,4 @@ if __name__ == '__main__':
 
         db.create_all()
 
-    app.run()
+    app.run(debug=True)
